@@ -1,11 +1,35 @@
 /*Criada função genérica para selecionar todos os id's das teclas, possibilitando acionar
 cada som diferentemente*/
 
-function tocaSom(idElementoAudio){
+/*function tocaSom(idElementoAudio) a condição da função será substituida pois quando colocamos
+para reproduzir o elemento a partir de button, no inspecionar, aparece erro e não executa,
+iremos melhorar o código adicionando mais condições*/
 
-document.querySelector(idElementoAudio).play();
+/* Em seguida é criada uma constante para o document.querySelector, chamada elemento, para armazenar
+o retorno (document.querySelector() é um retorno) */
 
-}
+function tocaSom(seletorAudio){
+
+const elemento = document.querySelector(seletorAudio);
+
+/*if(elemento === null ){
+    //console.log('Elemento não encontrado'); mais discreto
+    }
+    //!= representa que não é igual, diferente, not equal
+//nao precisa usar != para null pois o JS automaticamente ja entende
+Precisamos garantir que o elemento é tocado mesmo se não for uma tag de audio, a button*/
+
+//&& é o simbolo para o operador 'e', and
+    if(elemento != null && elemento.localName === 'audio' ){
+    elemento.play();        
+        } 
+    else{
+        alert('Elemento não encontrado ou seletor inválido');  
+            }
+//else deve ser imediatamente invocado apos de if, pois entra com ideia de 'senao' aquele if anterior
+    //console.log(elemento.localName);
+    //elemento.play();
+    }
 
 /*
 --------function tocaSomPom (){
@@ -33,7 +57,7 @@ for (let contador = 0; contador < listaDeTeclas.length; contador++) {
     const instrumento = tecla.classList[1];
 //template string
     const idAudio = `#som_${instrumento}`;
-    console.log(idAudio);
+    //console.log(idAudio);
     tecla.onclick = function(){
         tocaSom(idAudio);
     };
@@ -42,6 +66,40 @@ for (let contador = 0; contador < listaDeTeclas.length; contador++) {
     // ------- contador = contador + 1;
     //console é a referência para o console do devtool, log manda mensagens para o console do navegador
     //console.log(contador);
+
+    /* onkeydown é um atributo referente a quando a tecla está apertada, adicionando a class ativa
+    a todas as tags de button a partir da tecla. Mas com isso, sempre fica ativa a classe quand
+    qualquer tecla é precionada*/
+
+    /*Podemos dar um nome qualquer ao parametro (dentro da função) relativo ao evento que foi acionado
+    . Geralmente esta escrito event ou e, mas pode ser qualquer nome. É interessante utilizar o console
+    para ver as diferentes informações dentro da função*/
+
+    /*Utilizamos a propriedade code pois ele mostra qual tecla que foi apertada quando investigamos 
+    no console com console.log. Existem outras coisas que informão sobre as teclas apertadas*/
+
+    /* Existem dois operadores de igualdade, o == e ===. O == compara somente o valor, já o === compara o tipo
+    do dado, como quando escrevemos 1 === "1" e da false, pois o NUMERO 1 é diferente da STRING 1, que 
+    representa uma letra e não é o mesmo tipo de dado que 1. Já 1 == "1" da que é verdade, pois compara
+    so o valor*/
+
+    /*Dentro do () do if é uma condição*/
+    tecla.onkeydown = function(evento){
+
+        //console.log(evento.code  === 'Space' || evento.code === 'Enter');
+
+        if(evento.code === 'Space'|| evento.code === 'Enter'){
+            tecla.classList.add('ativa');    
+        }
+
+        
+    }
+/*É utilizado o atributo remove referente a quando o teclado é desprecionado, a classe desativa, mas
+ainda continua vermelho (a classe ativa ainda está ativa) quando solta-se a tecla */
+    tecla.onkeyup = function(){
+        tecla.classList.remove('ativa');
+    }
+
 }
 
 //---------document.querySelector('.tecla_pom').onclick = tocaSomPom; 
